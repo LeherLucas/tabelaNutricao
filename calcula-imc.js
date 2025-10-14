@@ -1,13 +1,13 @@
 // Busca os elementos a partir da classe e atribui novo valor
-var tSecundario = document.querySelector(".titulo-secundario");
+var tituloSec = document.querySelector(".titulo-secundario");
 var titulo = document.querySelector(".titulo");
-tSecundario.textContent = "Meus Pacientes";
-titulo.textContent = "Ucas Nutrição";
+tituloSec.textContent = "Meus Pacientes";
+titulo.textContent = "Lucas Nutrição";
 
 // cria a variável paciente, busca o elemento a partir da classe e altera seu conteúdo
 var pacientes = document.querySelectorAll(".paciente");
 
-for(var i = 0; i < pacientes.length; i++){
+for(i = 0; i < pacientes.length; i++){
     var paciente = pacientes[i];
 
     var tdPeso = paciente.querySelector(".info-peso");
@@ -18,42 +18,54 @@ for(var i = 0; i < pacientes.length; i++){
     var altura = tdAltura.textContent;
 
     //calcula o IMC e altera no elemento
-    var IMC = peso / (altura * altura);
+    var IMC = calculaIMC(peso,altura);
 
     //valores booleanos
-    var pesoValido = true;
-    var alturaValida = true;
+    var pesoValido = validarPeso(peso);//true or false
+    var alturaValida = validarAltura(altura);
+    var tdIMC = paciente.querySelector(".info-imc");
 
     if(pesoValido && alturaValida){
-        var tdIMC = paciente.querySelector(".info-imc");
-        tdIMC.textContent = IMC.toFixed(2);
+        tdIMC.textContent = IMC;
     }
 
     //alerta caso peso e altura sejam inválidos
-    if(peso <= 0 || peso >= 1000){
+    if(!pesoValido){
         console.log("Peso inválido!");
         var pesoValido = false;
-        tdIMC.textContent = "Peso inválido!";
+        tdIMC.textContent = "Peso Inválido!";
         paciente.classList.add("paciente-invalido");
     }
-    if(altura <= 0 || altura >= 3.00){
+    if(!alturaValida){
         console.log("Altura Inválida!");
         var alturaValida = false;
-        tdIMC.textContent = "Altura Inválida";
+        tdIMC.textContent = "Altura Inválida!";
         paciente.classList.add("paciente-invalido");
-    }
-
-    
+    }    
 }
 
+//Validação quando o peso for válido
+function validarPeso(peso){
+    if(peso >= 0 && peso < 1000){
+        return true;
+    }else{
+        return false;
+    }
+}
 
+function validarAltura(altura){
+    if(altura >= 0 && altura <= 3.00){
+        return true;
+    }else{
+        return false;
+    }
+}
 
+function calculaIMC(peso, altura){
+    IMC = peso/(altura*altura);
 
-
-
-
-
-
+    return IMC.toFixed(2);
+}
 
 
 
